@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: b2bapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: >
+      bash -c "
+      psql -U postgres -d b2bapp -c 'CREATE TABLE IF NOT EXISTS Documents (
+        Id UUID PRIMARY KEY,
+        Title TEXT,
+        Content TEXT,
+        CreatedAt TIMESTAMP,
+        Embedding FLOAT8[]);'
+      "
+
+volumes:
+  postgres_data:
